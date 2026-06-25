@@ -19,7 +19,14 @@ const handler: Handler = async (event) => {
       };
     }
 
-    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: "Clé API manquante sur le serveur. Vérifier GEMINI_API_KEY dans Netlify." }),
+      };
+    }
+    const ai = new GoogleGenAI({ apiKey });
 
     const generateWithModel = async (modelName: string) => {
       if (fileData && mimeType) {
