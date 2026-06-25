@@ -44,21 +44,7 @@ const handler: Handler = async (event) => {
       }
     };
 
-    let response;
-    try {
-      response = await generateWithModel("gemini-2.5-flash");
-    } catch (error: any) {
-      if (
-        error?.status === 503 ||
-        error?.message?.includes("503") ||
-        error?.message?.includes("UNAVAILABLE")
-      ) {
-        console.warn("gemini-2.5-flash unavailable, fallback gemini-2.0-flash");
-        response = await generateWithModel("gemini-2.0-flash");
-      } else {
-        throw error;
-      }
-    }
+    const response = await generateWithModel("gemini-2.5-flash");
 
     return {
       statusCode: 200,
