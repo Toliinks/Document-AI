@@ -194,22 +194,22 @@ export default function App() {
           </div>
           <h1 className="text-xl font-black tracking-tighter text-slate-900 uppercase">Nexus·Doc</h1>
         </div>
-        <div className="flex bg-slate-100 p-1 rounded-full overflow-x-auto hide-scrollbar max-w-[180px] sm:max-w-none">
+        <div className="hidden sm:flex bg-slate-100 p-1 rounded-full">
           <button 
             onClick={() => setActiveTab('convert')}
-            className={`px-2 sm:px-3 py-1.5 text-[10px] sm:text-xs font-bold uppercase tracking-wider rounded-full transition-colors whitespace-nowrap ${activeTab === 'convert' ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:text-slate-700'}`}
+            className={`px-3 sm:px-4 py-1.5 text-xs font-bold uppercase tracking-wider rounded-full transition-colors whitespace-nowrap ${activeTab === 'convert' ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:text-slate-700'}`}
           >
             Convertir
           </button>
           <button 
             onClick={() => setActiveTab('analyse')}
-            className={`px-2 sm:px-3 py-1.5 text-[10px] sm:text-xs font-bold uppercase tracking-wider rounded-full transition-colors whitespace-nowrap ${activeTab === 'analyse' ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:text-slate-700'}`}
+            className={`px-3 sm:px-4 py-1.5 text-xs font-bold uppercase tracking-wider rounded-full transition-colors whitespace-nowrap ${activeTab === 'analyse' ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:text-slate-700'}`}
           >
             Analyse IA
           </button>
           <button 
             onClick={() => setActiveTab('history')}
-            className={`px-2 sm:px-3 py-1.5 text-[10px] sm:text-xs font-bold uppercase tracking-wider rounded-full transition-colors whitespace-nowrap ${activeTab === 'history' ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:text-slate-700'}`}
+            className={`px-3 sm:px-4 py-1.5 text-xs font-bold uppercase tracking-wider rounded-full transition-colors whitespace-nowrap ${activeTab === 'history' ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:text-slate-700'}`}
           >
             Historique
           </button>
@@ -889,5 +889,21 @@ function PreviewPanel({ file, onClose }: { file: NexusFile, onClose: () => void 
         </div>
       </div>
     </motion.div>
+
+      {/* Bottom nav mobile */}
+      <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 flex justify-around items-center h-16 px-4">
+        <button onClick={() => setActiveTab('convert')} className={`flex flex-col items-center gap-1 text-[10px] font-bold uppercase tracking-wider transition-colors ${activeTab === 'convert' ? 'text-slate-900' : 'text-slate-400'}`}>
+          <span className={`w-8 h-1 rounded-full transition-colors ${activeTab === 'convert' ? 'bg-slate-900' : 'bg-transparent'}`}></span>
+          Convertir
+        </button>
+        <button onClick={() => setActiveTab('analyse')} className={`flex flex-col items-center gap-1 text-[10px] font-bold uppercase tracking-wider transition-colors ${activeTab === 'analyse' ? 'text-slate-900' : 'text-slate-400'}`}>
+          <span className={`w-8 h-1 rounded-full transition-colors ${activeTab === 'analyse' ? 'bg-slate-900' : 'bg-transparent'}`}></span>
+          Analyse IA
+        </button>
+        <button onClick={() => setActiveTab('history')} className={`flex flex-col items-center gap-1 text-[10px] font-bold uppercase tracking-wider transition-colors ${activeTab === 'history' ? 'text-slate-900' : 'text-slate-400'}`}>
+          <span className={`w-8 h-1 rounded-full transition-colors ${activeTab === 'history' ? 'bg-slate-900' : 'bg-transparent'}`}></span>
+          Historique
+        </button>
+      </nav>
   );
 }
