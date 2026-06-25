@@ -53,8 +53,8 @@ const handler: Handler = async (event) => {
         error?.message?.includes("503") ||
         error?.message?.includes("UNAVAILABLE")
       ) {
-        console.warn("gemini-2.5-flash unavailable, fallback gemini-1.5-flash");
-        response = await generateWithModel("gemini-1.5-flash");
+        console.warn("gemini-2.5-flash unavailable, fallback gemini-2.0-flash");
+        response = await generateWithModel("gemini-2.0-flash");
       } else {
         throw error;
       }
