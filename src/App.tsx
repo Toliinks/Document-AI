@@ -194,22 +194,22 @@ export default function App() {
           </div>
           <h1 className="text-xl font-black tracking-tighter text-slate-900 uppercase">Nexus·Doc</h1>
         </div>
-        <div className="flex bg-slate-100 p-1 rounded-full overflow-x-auto hide-scrollbar">
+        <div className="flex bg-slate-100 p-1 rounded-full overflow-x-auto hide-scrollbar max-w-[180px] sm:max-w-none">
           <button 
             onClick={() => setActiveTab('convert')}
-            className={`px-3 sm:px-4 py-1.5 text-xs font-bold uppercase tracking-wider rounded-full transition-colors whitespace-nowrap ${activeTab === 'convert' ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:text-slate-700'}`}
+            className={`px-2 sm:px-3 py-1.5 text-[10px] sm:text-xs font-bold uppercase tracking-wider rounded-full transition-colors whitespace-nowrap ${activeTab === 'convert' ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:text-slate-700'}`}
           >
             Convertir
           </button>
           <button 
             onClick={() => setActiveTab('analyse')}
-            className={`px-3 sm:px-4 py-1.5 text-xs font-bold uppercase tracking-wider rounded-full transition-colors whitespace-nowrap ${activeTab === 'analyse' ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:text-slate-700'}`}
+            className={`px-2 sm:px-3 py-1.5 text-[10px] sm:text-xs font-bold uppercase tracking-wider rounded-full transition-colors whitespace-nowrap ${activeTab === 'analyse' ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:text-slate-700'}`}
           >
             Analyse IA
           </button>
           <button 
             onClick={() => setActiveTab('history')}
-            className={`px-3 sm:px-4 py-1.5 text-xs font-bold uppercase tracking-wider rounded-full transition-colors whitespace-nowrap ${activeTab === 'history' ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:text-slate-700'}`}
+            className={`px-2 sm:px-3 py-1.5 text-[10px] sm:text-xs font-bold uppercase tracking-wider rounded-full transition-colors whitespace-nowrap ${activeTab === 'history' ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:text-slate-700'}`}
           >
             Historique
           </button>
