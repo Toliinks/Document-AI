@@ -1,69 +1,53 @@
 import type { Handler } from "@netlify/functions";
-import { GoogleGenAI } from "@google/genai";
 
 const handler: Handler = async (event) => {
   if (event.httpMethod !== "POST") {
-    return {
-      statusCode: 405,
-      body: JSON.stringify({ error: "Method not allowed" }),
-    };
+    return { statusCode: 405, body: JSON.stringify({ error: "Method not allowed" }) };
+  }
+
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    return { statusCode: 500, body: JSON.stringify({ error: "Clé API manquante." }) };
   }
 
   try {
     const { prompt, fileData, mimeType } = JSON.parse(event.body || "{}");
 
     if (!prompt) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: "Prompt is required" }),
-      };
+      return { statusCode: 400, body: JSON.stringify({ error: "Prompt manquant." }) };
     }
 
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) {
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ error: "Clé API manquante sur le serveur. Vérifier GEMINI_API_KEY dans Netlify." }),
-      };
-    }
-    const ai = new GoogleGenAI({ apiKey });
+    const parts: any[] = [{ text: prompt }];
 
-    const generateWithModel = async (modelName: string) => {
-      if (fileData && mimeType) {
-        const base64Data = fileData.split(",")[1] || fileData;
-        return await ai.models.generateContent({
-          model: modelName,
-          contents: [
-            {
-              role: "user",
-              parts: [
-                { text: prompt },
-                { inlineData: { data: base64Data, mimeType } },
-              ],
-            },
-          ],
-        });
-      } else {
-        return await ai.models.generateContent({
-          model: modelName,
-          contents: prompt,
-        });
+    if (fileData && mimeType) {
+      const base64Data = fileData.split(",")[1] || fileData;
+      parts.push({ inline_data: { mime_type: mimeType, data: base64Data } });
+    }
+
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ contents: [{ parts }] }),
       }
-    };
+    );
 
-    const response = await generateWithModel("gemini-2.5-flash");
+    const data = await res.json();
+
+    if (!res.ok) {
+      return { statusCode: 500, body: JSON.stringify({ error: data.error || "Erreur API Gemini." }) };
+    }
+
+    const result = data?.candidates?.[0]?.content?.parts?.[0]?.text || "Aucune réponse.";
 
     return {
       statusCode: 200,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ result: response.text }),
+      body: JSON.stringify({ result }),
     };
   } catch (error: any) {
-    console.error("AI Analysis Error:", error);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: error.message || "Failed to analyze document." }),
-    };
+    return { statusCode: 500, body: JSON.stringify({ error: error.message }) };
   }
 };
 
